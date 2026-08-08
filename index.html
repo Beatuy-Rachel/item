@@ -10,6 +10,15 @@
     <meta name="apple-mobile-web-app-title" content="好物记录" />
     <meta name="description" content="个人物品价值管理与心愿清单" />
     <title>好物记录</title>
+    <script>
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
     <link rel="manifest" href="/manifest.json" />
     <script type="module">
       if (import.meta.hot?.on) {
