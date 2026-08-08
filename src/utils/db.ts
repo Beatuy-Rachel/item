@@ -371,7 +371,7 @@ export async function initDB(): Promise<void> {
 
   initPromise = (async () => {
     SQL = await initSqlJs({
-      locateFile: (file) => `https://sql.js.org/dist/${file}`,
+      locateFile: (file) => `${import.meta.env.BASE_URL}${file}`,
     });
 
     const savedData = localStorage.getItem(DB_NAME);
