@@ -7,9 +7,8 @@ RUN apk add --no-cache tzdata \
   && echo "Asia/Shanghai" > /etc/timezone
 
 COPY server/package.json ./
-COPY server/package-lock.json* ./
 
-RUN npm ci --production
+RUN npm install --production
 
 COPY server/ ./
 
