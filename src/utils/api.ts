@@ -131,4 +131,13 @@ export const api = {
         yearlyStats: { year: number; value: number; count: number }[];
       }>('/stats/yearly', { token }),
   },
+
+  importData: {
+    importData: (token: string, data: { items?: import('@/types').Item[]; wishes?: import('@/types').Wish[] }) =>
+      request<{ message: string; importedItems: number; importedWishes: number }>('/import', {
+        method: 'POST',
+        token,
+        body: JSON.stringify(data),
+      }),
+  },
 };

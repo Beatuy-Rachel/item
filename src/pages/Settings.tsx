@@ -7,6 +7,7 @@ import { useWishStore } from '@/store/useWishStore';
 import { useAuthStore } from '@/store/useAuthStore';
 import { exportToJSON, setToStorage } from '@/utils/storage';
 import { exportDB, importDB } from '@/utils/db';
+import { api } from '@/utils/api';
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -93,18 +94,37 @@ export default function Settings() {
       if (!file) return;
       
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = async (event) => {
         try {
           const data = JSON.parse(event.target?.result as string);
           if (data.items && confirm(`确定要导入 ${data.items.length} 个物品和 ${data.wishes?.length || 0} 个心愿吗？这将覆盖现有数据。`)) {
-            setToStorage('wuxi-items', data.items);
-            if (data.wishes) {
-              setToStorage('wuxi-wishes', data.wishes);
+            if (mode === 'local') {
+              setToStorage('wuxi-items', data.items);
+              if (data.wishes) {
+                setToStorage('wuxi-wishes', data.wishes);
+              }
+              if (data.settings) {
+                setToStorage('wuxi-settings', data.settings);
+              }
+              window.location.reload();
+            } else {
+              const token = useAuthStore.getState().token;
+              if (!token) {
+                alert('请先登录');
+                return;
+              }
+              try {
+                await api.importData.importData(token, {
+                  items: data.items,
+                  wishes: data.wishes,
+                });
+                await useItemStore.getState().fetchItems();
+                await useWishStore.getState().fetchWishes();
+                window.location.reload();
+              } catch (err: any) {
+                alert(`导入失败: ${err.message}`);
+              }
             }
-            if (data.settings) {
-              setToStorage('wuxi-settings', data.settings);
-            }
-            window.location.reload();
           }
         } catch {
           alert('文件格式错误，请检查文件');

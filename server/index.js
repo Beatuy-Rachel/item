@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const itemsRoutes = require('./routes/items');
 const wishesRoutes = require('./routes/wishes');
 const statsRoutes = require('./routes/stats');
+const importRoutes = require('./routes/import');
 const { initDatabase } = require('./utils/initDB');
 
 const app = express();
@@ -39,6 +40,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/items', itemsRoutes);
 app.use('/api/wishes', wishesRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/import', importRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
