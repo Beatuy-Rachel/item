@@ -9,6 +9,7 @@ import NewWish from '@/pages/NewWish';
 import WishDetail from '@/pages/WishDetail';
 import Stats from '@/pages/Stats';
 import Settings from '@/pages/Settings';
+import Login from '@/pages/Login';
 import { useItemStore } from '@/store/useItemStore';
 import { useWishStore } from '@/store/useWishStore';
 
@@ -55,6 +56,7 @@ function AppContent() {
         <Route path="/wishes/:id/edit" element={<NewWish />} />
         <Route path="/stats" element={<Stats />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       {showBottomNav && (
         <nav className="fixed bottom-0 left-0 right-0 z-50 safe-bottom">
