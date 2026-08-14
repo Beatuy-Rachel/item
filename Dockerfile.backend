@@ -2,15 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-RUN apk add --no-cache tzdata \
-  && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-  && echo "Asia/Shanghai" > /etc/timezone
-
 COPY server/package.json ./
 
 RUN npm install --production
 
 COPY server/ ./
+
+ENV TZ=Asia/Shanghai
 
 EXPOSE 3001
 
